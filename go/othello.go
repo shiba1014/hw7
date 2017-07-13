@@ -218,3 +218,27 @@ func (b *Board) ValidMoves() []Move {
 	}
 	return moves
 }
+
+func (b *Board) getGoodMove(moves []Move) Move {
+	goodMove := moves[0]
+	current_score := -1000
+	scoremap := map[int][]int {
+		1:[]int{100, -100, 50, 20, 20, 50, -100, 100},
+		2:[]int{-100, -300, -50, -50, -50, -50, -300, -100},
+		3:[]int{100, -50, -10, -10, -10, -10, -50, 100},
+		4:[]int{20, -50, -10, -10, -10, -10, -50, 20},
+		5:[]int{20, -50, -10, -10, -10, -10, -50, 20},
+		6:[]int{100, -50, -10, -10, -10, -10, -50, 100},
+		7:[]int{-100, -300, -50, -50, -50, -50, -300, -100},
+		8:[]int{100, -100, 50, 20, 20, 50, -100, 100},
+	}
+	for _, move := range moves {
+		score := scoremap[move.Where[0]][move.Where[1]]
+		if score > current_score {
+			goodMove = move
+			current_score = score
+		}
+	}
+
+	return goodMove
+}
